@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Container(
       decoration: BoxDecoration(
-        color: AppStyle.lightTheme.primaryColor,
+        color: Theme.of(context).colorScheme.primary,
       ),
       child: Scaffold(
         appBar: AppBar(

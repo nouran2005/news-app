@@ -7,7 +7,8 @@ class AppStyle {
   static ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.transparent,
     appBarTheme: AppBarTheme(
-      backgroundColor:ColorManager.lightPrimaryColor,
+      backgroundColor:Colors.transparent,
+      elevation: 0,
       centerTitle: true,
       iconTheme: IconThemeData(
         color: ColorManager.lightSecondaryColor,
@@ -56,47 +57,46 @@ class AppStyle {
   static ThemeData darkTheme = ThemeData(
     scaffoldBackgroundColor: Colors.transparent,
     appBarTheme: AppBarTheme(
-      backgroundColor:ColorManager.lightSecondaryColor,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
       centerTitle: true,
       iconTheme: IconThemeData(
-        color: ColorManager.lightSecondaryColor,
+        color: ColorManager.darkSecondaryColor,
         size: 27.sp,
       ),
       titleTextStyle: TextStyle(
-        color: ColorManager.lightSecondaryColor,
+        color: ColorManager.darkSecondaryColor,
         fontSize: 25.sp,
         fontWeight: FontWeight.w600,
         fontFamily: "Great Vibes",
       ),
     ),
-    colorScheme:  ColorScheme.fromSeed(
+    colorScheme: ColorScheme.fromSeed(
       seedColor: const Color.fromARGB(255, 92, 7, 219),
-      primary: ColorManager.lightPrimaryColor,
-      secondary: ColorManager.lightSecondaryColor,
+      primary: ColorManager.darkPrimaryColor,
+      secondary: ColorManager.darkSecondaryColor,
+      onPrimary: ColorManager.greyColor,
+    ),
+    textTheme: TextTheme(
+      headlineMedium: TextStyle(
+        fontSize: 35.sp,
+        fontWeight: FontWeight.w700,
+        fontFamily: "Great Vibes",
+        color: ColorManager.darkSecondaryColor,
       ),
-      textTheme: TextTheme(
-        headlineMedium: TextStyle(
-          fontSize: 35.sp,
-          fontWeight: FontWeight.w700,
-          fontFamily: "Great Vibes",
-          color:  ColorManager.lightSecondaryColor,
-        ),
-        headlineSmall: TextStyle(
-          fontSize: 20.sp,
-          fontWeight: FontWeight.w500,
-          color: Colors.white,
-        ),
-        /*titleMedium: TextStyle(
-          fontSize: 22.sp,
-          fontWeight: FontWeight.w700,
-          color: AppColors.greyColor,
-        ),
-        titleSmall: TextStyle(
-          fontSize: 18.sp,
-          fontWeight: FontWeight.w400,
-          color: AppColors.descriptionColor,
-        )*/
-      )
+      headlineSmall: TextStyle(
+        color: ColorManager.darkPrimaryColor, 
+        fontSize: 28.sp,
+        fontWeight: FontWeight.bold,
+      ),
+      titleMedium: TextStyle(
+        fontSize: 24.sp,
+        fontWeight: FontWeight.w500,
+        fontFamily: "Inter",
+        color: ColorManager.darkSecondaryColor,
+      ),
+      // ...
+    ),
   );
 }
 
