@@ -1,4 +1,6 @@
-import 'Sources.dart';
+import 'package:news_app/features/category_details/domain/entities/SourcesEntity/SourcesEntity.dart';
+
+import 'Source.dart';
 
 /// status : "ok"
 /// code : "apiKeyInvalid"
@@ -20,14 +22,14 @@ class SourceResponse {
     if (json['sources'] != null) {
       sources = [];
       json['sources'].forEach((v) {
-        sources?.add(Sources.fromJson(v));
+        sources?.add(Source.fromJson(v));
       });
     }
   }
   String? status;
   String? code;
   String? message;
-  List<Sources>? sources;
+  List<Source>? sources;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -38,5 +40,14 @@ class SourceResponse {
       map['sources'] = sources?.map((v) => v.toJson()).toList();
     }
     return map;
+  }
+
+  SourcesEntity toSourcesEntity() {
+    return SourcesEntity(
+      status: status,
+      code: code,
+      message: message,
+      sources: sources?.map((Source) => Source.toSourceEntity()).toList(),
+    );
   }
 }

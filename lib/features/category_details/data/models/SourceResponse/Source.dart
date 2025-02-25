@@ -1,3 +1,5 @@
+import 'package:news_app/features/category_details/domain/entities/SourcesEntity/SourceEntity.dart';
+
 /// id : "bbc-sport"
 /// name : "BBC Sport"
 /// description : "The home of BBC Sport online. Includes live sports coverage, breaking news, results, video, audio and analysis on Football, F1, Cricket, Rugby Union, Rugby League, Golf, Tennis and all the main world sports, plus major events such as the Olympic Games."
@@ -6,8 +8,8 @@
 /// language : "en"
 /// country : "gb"
 
-class Sources {
-  Sources({
+class Source {
+  Source({
     this.id,
     this.name,
     this.description,
@@ -17,7 +19,7 @@ class Sources {
     this.country,
   });
 
-  Sources.fromJson(dynamic json) {
+  Source.fromJson(dynamic json) {
     id = json['id'];
     name = json['name'];
     description = json['description'];
@@ -44,5 +46,13 @@ class Sources {
     map['language'] = language;
     map['country'] = country;
     return map;
+  }
+
+  SourceEntity toSourceEntity() {
+    return SourceEntity(
+      id: id,
+      name: name,
+      language: language,
+    );
   }
 }
