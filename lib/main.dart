@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:news_app/core/DI/di.dart';
 import 'package:news_app/core/resources/Style/AppStyle.dart';
 import 'package:news_app/features/home_screen/presentation/pages/home_screen.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await ScreenUtil.ensureScreenSize();
+  configureDependencies();
   runApp(const NewsApp());
 }
 

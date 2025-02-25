@@ -6,10 +6,11 @@ class NewsListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  ListView.separated(
+    return ListView.separated(
       itemBuilder:(context, index) => ArticleItem(articleModel: AllArticls[index],) , 
       separatorBuilder:(context, index) =>  SizedBox() , 
       itemCount:AllArticls.length);
+     /**/
   }
 }
 
