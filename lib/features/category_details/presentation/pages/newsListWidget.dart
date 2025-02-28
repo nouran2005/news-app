@@ -1,16 +1,61 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/core/DI/di.dart';
 import 'package:news_app/features/category_details/data/models/ArticleModel.dart';
+import 'package:news_app/features/category_details/presentation/manager/category_cubit.dart';
 import 'package:news_app/features/category_details/presentation/widgets/ArticleItem.dart';
+
 class NewsListWidget extends StatelessWidget {
-  const NewsListWidget({super.key});
+  final String sourceID;
+  const NewsListWidget({
+    Key? key,
+    required this.sourceID,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
+    return BlocProvider(
+      create: (context) {
+        return getIt<CategoryCubit>()..getArticles(sourceID: sourceID, language: "en");
+        
+      },
+      
+      child: BlocBuilder<CategoryCubit, CategoryState>(
+         buildWhen: (previous, current) {
+          if (current is ArticlesLoadedSuccessState ||
+              current is ArticlesErrorState ||
+              current is ArticlesLoadingState) {
+            return true;
+          }
+          return false;
+        },
+        builder: (context, state) {
+          if (state is ArticlesLoadedSuccessState) {
+            return ListView.separated(
+              
+              itemBuilder: (context, index) => ArticleItem(articleEntity: state.articlesEntity.articles![index],) , 
+              separatorBuilder:(context, index) =>  SizedBox() , 
+              itemCount: state.articlesEntity.articles?.length??0,
+            );
+          } else if (state is ArticlesErrorState) {
+            return Center(
+              child: Text(state.error),
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+
+      )
+      );
+    /*ListView.separated(
       itemBuilder:(context, index) => ArticleItem(articleModel: AllArticls[index],) , 
       separatorBuilder:(context, index) =>  SizedBox() , 
       itemCount:AllArticls.length);
-     /**/
+    */
   }
 }
 
