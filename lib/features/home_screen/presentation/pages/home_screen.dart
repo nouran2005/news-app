@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/resources/Style/AppStyle.dart';
+import 'package:news_app/features/category_details/presentation/pages/CategoryDetailsWidget.dart';
+import 'package:news_app/features/home_screen/presentation/widgets/CatecoriesTab.dart';
+import 'package:news_app/features/home_screen/presentation/widgets/CustomDrawer.dart';
 
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
   static const String routeName = "home";
 
   @override
@@ -11,85 +15,51 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late Widget selectedWidget;
-  String appBarTitle = "News App";
-  bool searchIcon = false;
-  //String? searchQuery;
-
+  String appBarTitle = "Today's News";
   @override
-  void initState() {
-    super.initState();
-    //SearchController = TextEditingController();
-    //selectedWidget = CategoriesTab(onTap: selectNewCategory);
-    
-  }
+   initState() {
+      
+      super.initState();
+      selectedWidget =CategoriesTab(
+        onTap: selectNewCategory,
+      );
+    }
 
-  @override
   Widget build(BuildContext context) {
+   
+
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
-        image: DecorationImage(
-          image: AssetImage("assets/images/pattern.png"),
-          fit: BoxFit.fill,
-        ),
+        color: Theme.of(context).colorScheme.primary,
       ),
       child: Scaffold(
-       // drawer: Drawer(child: CustomDrawer(onpress: onSelectedTab)),
         appBar: AppBar(
-          title:  Text(appBarTitle),
-          actions: searchIcon
-              ? [
-                  IconButton(
-                    onPressed: (){
-                      //showSearch(context: context, delegate: NewsSearch());
-                    }, 
-                    icon: Icon(Icons.search))
-                ]
-              : null,
+          title: Text(appBarTitle),
         ),
+        drawer: Drawer(child: CustomDrawer(onPress: goToHome,)),
         body: selectedWidget,
       ),
     );
   }
-/*
-  void onSelectedTab(Tabenum tab) {
-    switch (tab) {
-      case Tabenum.Categories:
-        selectedWidget = CategoriesTab(onTap: selectNewCategory);
-        appBarTitle = "News App";
-        searchIcon = false;
-        //isSearching = false;
-        break;
-      case Tabenum.Settings:
-        selectedWidget = SetteingTab();
-        appBarTitle = "Settings";
-        searchIcon = false;
-        //isSearching = false;
-        break;
-    }
-    setState(() {});
-    Navigator.pop(context);
-  }
+
+
 
   void selectNewCategory(String ID, String categoryTitle) {
-    selectedWidget = Categorydetailwidget(
+    selectedWidget = CategoryDetailsWidget(
       categoryID: ID,
     );
     appBarTitle = categoryTitle;
-    searchIcon = true;
+    //searchIcon = true;
     //isSearching = false;
     setState(() {});
-  }*/
+  }
 
+  void goToHome() {
+    selectedWidget = CategoriesTab(onTap: selectNewCategory);
+    appBarTitle = "Today's News";
+    setState(() {});
+    Navigator.pop(context);
+  }
 }
 
-/*
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-  static const String routeName = "home";
 
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}*/
