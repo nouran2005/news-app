@@ -33,7 +33,7 @@ class NewsListWidget extends StatelessWidget {
         builder: (context, state) {
           if (state is ArticlesLoadedSuccessState) {
             return ListView.separated(
-              
+             // controller: context.read<CategoryCubit>().scrollController, 
               itemBuilder: (context, index) => ArticleItem(articleEntity: state.articlesEntity.articles![index],) , 
               separatorBuilder:(context, index) =>  SizedBox() , 
               itemCount: state.articlesEntity.articles?.length??0,
@@ -58,9 +58,6 @@ class NewsListWidget extends StatelessWidget {
     */
   }
 }
-
-
-
 
 List<ArticleModel> AllArticls =[
     ArticleModel(

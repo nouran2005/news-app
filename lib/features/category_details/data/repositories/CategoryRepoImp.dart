@@ -41,4 +41,5 @@ class CategoryRepoImp extends CategoryRepo {
       return Right("No Internet Connection");
     }
   }
+  
 }
