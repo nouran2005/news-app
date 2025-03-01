@@ -1,13 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:news_app/features/category_details/data/models/ArticleModel.dart';
+import 'package:news_app/features/category_details/domain/entities/ArticlesEntity/ArticleEntity.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class ArticleItem extends StatelessWidget {
-  final ArticleModel articleModel;
-
-  const ArticleItem({super.key, required this.articleModel});
+  //final ArticleModel articleModel;
+  final ArticleEntity articleEntity;
+  const ArticleItem({
+    super.key,
+    required this.articleEntity,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +20,8 @@ class ArticleItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color:Theme.of(context).colorScheme.secondary, width: 2), 
+        border: Border.all(
+            color: Theme.of(context).colorScheme.secondary, width: 2),
         boxShadow: [
           BoxShadow(
             color: Theme.of(context).colorScheme.secondary,
@@ -32,7 +36,7 @@ class ArticleItem extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.vertical(top: Radius.circular(14.r)),
             child: CachedNetworkImage(
-              imageUrl: articleModel.image,
+              imageUrl: articleEntity.urlToImage ?? '',
               height: 200.h,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -48,7 +52,7 @@ class ArticleItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  articleModel.title,
+                  articleEntity.title ?? "",
                   style: TextStyle(
                     fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
@@ -61,11 +65,12 @@ class ArticleItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "By : ${articleModel.auther}",
+                      "By : ${articleEntity.author != null && articleEntity.author!.length > 15 ? "${articleEntity.author!.substring(0, 15)}..." : articleEntity.author ?? ""}",
                       style: TextStyle(fontSize: 14.sp, color: Colors.grey),
                     ),
                     Text(
-                      timeago.format(articleModel.date),
+                      timeago.format(
+                          DateTime.parse(articleEntity.publishedAt ?? "")),
                       style: TextStyle(fontSize: 14.sp, color: Colors.grey),
                     ),
                   ],

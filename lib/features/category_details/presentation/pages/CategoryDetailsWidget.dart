@@ -28,15 +28,15 @@ class CategoryDetailsWidget extends StatelessWidget {
       },
       child: BlocBuilder<CategoryCubit, CategoryState>(
         buildWhen: (previous, current) {
-          if (current is CategoryLoadedSuccessState ||
-              current is CategoryErrorState ||
-              current is CategoryLoadingState) {
+          if (current is SourcesLoadedSuccessState ||
+              current is SourcesErrorState ||
+              current is SourcesLoadingState) {
             return true;
           }
           return false;
         },
         builder: (context, state) {
-          if (state is CategoryLoadedSuccessState) {
+          if (state is SourcesLoadedSuccessState) {
             return DefaultTabController(
               length: state.sourcesEntity.sources?.length??0,
               child: Column(
@@ -69,13 +69,13 @@ class CategoryDetailsWidget extends StatelessWidget {
                   Expanded(
                     child: TabBarView(
                         children:
-                            state.sourcesEntity.sources!.map((source) => NewsListWidget()).toList()),
+                            state.sourcesEntity.sources!.map((source) => NewsListWidget(sourceID: source.id ?? '',)).toList()),
                   ),
                 ],
               ),
             );
           }
-          if (state is CategoryErrorState) {
+          if (state is SourcesErrorState) {
             return Center(child: Text(state.error));
           }
           return Center(child: CircularProgressIndicator( color: Theme.of(context).colorScheme.secondary,));
