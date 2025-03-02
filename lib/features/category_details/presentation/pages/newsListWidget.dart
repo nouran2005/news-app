@@ -14,41 +14,30 @@ class NewsListWidget extends StatefulWidget {
 
   @override
   State<NewsListWidget> createState() => _NewsListWidgetState();
-  
 }
 
 class _NewsListWidgetState extends State<NewsListWidget> {
-  
+  CategoryCubit categoryCubit = getIt<CategoryCubit>();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-  final categoryCubit = getIt<CategoryCubit>();
-
-  // تهيئة الـ ScrollController مرة واحدة فقط
-  if (categoryCubit.scrollController == null) {
-    categoryCubit.scrollController = ScrollController();
-    categoryCubit.scrollController.addListener(() {
-      categoryCubit.onScroll(sourceID: widget.sourceID, language: "en");
-    });
-  }
-
-  categoryCubit.getArticles(sourceID: widget.sourceID, language: "en");
+    categoryCubit.getArticles(sourceID: widget.sourceID, language: "en");
+    categoryCubit.onScroll(sourceID: widget.sourceID, language: "en");
   }
   @override
   void dispose() {
     // TODO: implement dispose
-    final categoryCubit = getIt<CategoryCubit>();
-  
-  super.dispose();
-
+    super.dispose();
+    categoryCubit.scrollController.removeListener((){});
+    categoryCubit.scrollController.dispose();
   }
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        return getIt<CategoryCubit>()..getArticles(sourceID: widget.sourceID, language: "en");
+        return categoryCubit;
         
       },
       
@@ -64,7 +53,7 @@ class _NewsListWidgetState extends State<NewsListWidget> {
         builder: (context, state) {
           if (state is ArticlesLoadedSuccessState) {
             return ListView.separated(
-              controller: getIt<CategoryCubit>().scrollController, 
+              controller: categoryCubit.scrollController,
               itemBuilder: (context, index) => ArticleItem(articleEntity: state.articlesEntity.articles![index],) , 
               separatorBuilder:(context, index) =>  SizedBox() , 
               itemCount: state.articlesEntity.articles?.length??0,
