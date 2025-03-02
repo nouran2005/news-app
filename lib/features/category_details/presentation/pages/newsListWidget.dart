@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/DI/di.dart';
@@ -6,7 +5,7 @@ import 'package:news_app/features/category_details/data/models/ArticleModel.dart
 import 'package:news_app/features/category_details/presentation/manager/category_cubit.dart';
 import 'package:news_app/features/category_details/presentation/widgets/ArticleItem.dart';
 
-class NewsListWidget extends StatelessWidget {
+class NewsListWidget extends StatefulWidget {
   final String sourceID;
   const NewsListWidget({
     Key? key,
@@ -14,10 +13,31 @@ class NewsListWidget extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<NewsListWidget> createState() => _NewsListWidgetState();
+}
+
+class _NewsListWidgetState extends State<NewsListWidget> {
+  CategoryCubit categoryCubit = getIt<CategoryCubit>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    categoryCubit.getArticles(sourceID: widget.sourceID, language: "en");
+    categoryCubit.onScroll(sourceID: widget.sourceID, language: "en");
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    categoryCubit.scrollController.removeListener((){});
+    categoryCubit.scrollController.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        return getIt<CategoryCubit>()..getArticles(sourceID: sourceID, language: "en");
+        return categoryCubit;
         
       },
       
@@ -33,7 +53,7 @@ class NewsListWidget extends StatelessWidget {
         builder: (context, state) {
           if (state is ArticlesLoadedSuccessState) {
             return ListView.separated(
-             // controller: context.read<CategoryCubit>().scrollController, 
+              controller: categoryCubit.scrollController,
               itemBuilder: (context, index) => ArticleItem(articleEntity: state.articlesEntity.articles![index],) , 
               separatorBuilder:(context, index) =>  SizedBox() , 
               itemCount: state.articlesEntity.articles?.length??0,

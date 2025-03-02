@@ -7,5 +7,5 @@ class ArticleUseCase {
   CategoryRepo repo;
   @factoryMethod
   ArticleUseCase(this.repo);
-  Future<Either<ArticlesEntity, String>> call({required String sourceID, required String language}) => repo.getArticles(sourceID: sourceID, language: language);
+  Future<Either<ArticlesEntity, String>> call({required String sourceID, required String language, int? page}) => repo.getArticles(sourceID: sourceID, language: language, page: page);
 }
