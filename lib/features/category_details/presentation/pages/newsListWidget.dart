@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/DI/di.dart';
@@ -6,7 +5,7 @@ import 'package:news_app/features/category_details/data/models/ArticleModel.dart
 import 'package:news_app/features/category_details/presentation/manager/category_cubit.dart';
 import 'package:news_app/features/category_details/presentation/widgets/ArticleItem.dart';
 
-class NewsListWidget extends StatelessWidget {
+class NewsListWidget extends StatefulWidget {
   final String sourceID;
   const NewsListWidget({
     Key? key,
@@ -14,10 +13,42 @@ class NewsListWidget extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<NewsListWidget> createState() => _NewsListWidgetState();
+  
+}
+
+class _NewsListWidgetState extends State<NewsListWidget> {
+  
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  final categoryCubit = getIt<CategoryCubit>();
+
+  // تهيئة الـ ScrollController مرة واحدة فقط
+  if (categoryCubit.scrollController == null) {
+    categoryCubit.scrollController = ScrollController();
+    categoryCubit.scrollController.addListener(() {
+      categoryCubit.onScroll(sourceID: widget.sourceID, language: "en");
+    });
+  }
+
+  categoryCubit.getArticles(sourceID: widget.sourceID, language: "en");
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    final categoryCubit = getIt<CategoryCubit>();
+  
+  super.dispose();
+
+  }
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        return getIt<CategoryCubit>()..getArticles(sourceID: sourceID, language: "en");
+        return getIt<CategoryCubit>()..getArticles(sourceID: widget.sourceID, language: "en");
         
       },
       
@@ -33,7 +64,7 @@ class NewsListWidget extends StatelessWidget {
         builder: (context, state) {
           if (state is ArticlesLoadedSuccessState) {
             return ListView.separated(
-             // controller: context.read<CategoryCubit>().scrollController, 
+              controller: getIt<CategoryCubit>().scrollController, 
               itemBuilder: (context, index) => ArticleItem(articleEntity: state.articlesEntity.articles![index],) , 
               separatorBuilder:(context, index) =>  SizedBox() , 
               itemCount: state.articlesEntity.articles?.length??0,
