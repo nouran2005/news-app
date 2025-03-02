@@ -5,4 +5,5 @@ import 'package:news_app/features/category_details/domain/entities/SourcesEntity
 abstract class CategoryRepo{
   Future<Either<SourcesEntity, String>> getSources({required String category, required String language});
   Future<Either<ArticlesEntity, String>> getArticles({required String sourceID, required String language, int? page});
+  Future<Either<ArticlesEntity, String>> searchArticles({required String search});
 }

@@ -22,6 +22,8 @@ import '../../features/category_details/domain/repositories/CategoryRepo.dart'
     as _i685;
 import '../../features/category_details/domain/use_cases/ArticleUseCase.dart'
     as _i814;
+import '../../features/category_details/domain/use_cases/SearchUseCase.dart'
+    as _i743;
 import '../../features/category_details/domain/use_cases/SourceUseCase.dart'
     as _i661;
 import '../../features/category_details/presentation/manager/category_cubit.dart'
@@ -48,9 +50,12 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i814.ArticleUseCase(gh<_i685.CategoryRepo>()));
     gh.factory<_i661.SourceUseCase>(
         () => _i661.SourceUseCase(gh<_i685.CategoryRepo>()));
+    gh.factory<_i743.SearchUseCase>(
+        () => _i743.SearchUseCase(gh<_i685.CategoryRepo>()));
     gh.factory<_i377.CategoryCubit>(() => _i377.CategoryCubit(
           gh<_i661.SourceUseCase>(),
           gh<_i814.ArticleUseCase>(),
+          gh<_i743.SearchUseCase>(),
         ));
     return this;
   }

@@ -55,4 +55,27 @@ class CategoriesDaoApiImp extends CategoriesDao {
       return Right(e.toString());
     }
   }
+  
+  @override
+  Future<Either<ArticlesResponse, String>> searchArticles({required String search}) async{
+    try {
+      print("🔍 Searching for: '$search'"); 
+      var response = await apiManager.get(url: Endpoints.Articles, query: {
+        "q": search,
+        "apiKey": AppConestants.apiKey,
+      });
+      print("🛠 API Response: ${response.data}");
+      var articlesResponse = ArticlesResponse.fromJson(response.data);
+      if (response.statusMessage == null ||
+          response.statusMessage!.toLowerCase() == "ok") {
+        return Left(articlesResponse);
+      } else {
+        return Right(response.statusMessage!);
+
+      }
+    } catch (e) {
+      return Right(e.toString());
+    }
+  }
+  
 }

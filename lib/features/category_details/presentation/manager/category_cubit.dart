@@ -5,6 +5,7 @@ import 'package:news_app/features/category_details/domain/entities/ArticlesEntit
 import 'package:news_app/features/category_details/domain/entities/ArticlesEntity/ArticlesEntity.dart';
 import 'package:news_app/features/category_details/domain/entities/SourcesEntity/SourcesEntity.dart';
 import 'package:news_app/features/category_details/domain/use_cases/ArticleUseCase.dart';
+import 'package:news_app/features/category_details/domain/use_cases/SearchUseCase.dart';
 import 'package:news_app/features/category_details/domain/use_cases/SourceUseCase.dart';
 
 part 'category_state.dart';
@@ -13,13 +14,14 @@ part 'category_state.dart';
 class CategoryCubit extends Cubit<CategoryState> {
   final SourceUseCase sourceUseCase;
   final ArticleUseCase articleUseCase;
+  final SearchUseCase searchUseCase;
 
   int page = 1;
   ScrollController scrollController = ScrollController();
   List<ArticleEntity> articlesEntityList = [];
 
   @factoryMethod
-  CategoryCubit(this.sourceUseCase, this.articleUseCase)
+  CategoryCubit(this.sourceUseCase, this.articleUseCase, this.searchUseCase)
       : super(CategoryInitial());
 
   void getSources({required String category, required String language}) async {
@@ -67,5 +69,18 @@ class CategoryCubit extends Cubit<CategoryState> {
         }
       }
     });
+  }
+
+  void searchArticles({required String search}) async {
+    emit(ArticlesLoadingState());
+    var result = await searchUseCase.searchArticles(search: search);
+    result.fold(
+      (ArticlesEntity articlesEntity) {
+        emit(ArticlesLoadedSuccessState(articlesEntity));
+      },
+      (error) {
+        emit(ArticlesErrorState(error));
+      },
+    );
   }
 }
