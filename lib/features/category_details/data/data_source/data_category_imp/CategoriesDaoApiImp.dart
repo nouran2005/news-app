@@ -59,12 +59,10 @@ class CategoriesDaoApiImp extends CategoriesDao {
   @override
   Future<Either<ArticlesResponse, String>> searchArticles({required String search}) async{
     try {
-      print("🔍 Searching for: '$search'"); 
       var response = await apiManager.get(url: Endpoints.Articles, query: {
         "q": search,
         "apiKey": AppConestants.apiKey,
       });
-      print("🛠 API Response: ${response.data}");
       var articlesResponse = ArticlesResponse.fromJson(response.data);
       if (response.statusMessage == null ||
           response.statusMessage!.toLowerCase() == "ok") {
