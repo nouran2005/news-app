@@ -42,4 +42,15 @@ class CategoryRepoImp extends CategoryRepo {
     }
   }
   
+  @override
+  Future<Either<ArticlesEntity, String>> searchArticles({required String search})async{
+    var result =await categoriesDao.searchArticles(search: search);
+      return result.fold(
+        (response){
+          return Left(response.toArticlesEntity());
+        },(error){
+          return Right(error);
+        });
+  }
+  
 }
