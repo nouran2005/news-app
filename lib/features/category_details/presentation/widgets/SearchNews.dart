@@ -2,44 +2,48 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app/core/resources/AppColor.dart';
+import 'package:news_app/core/widget/error_display_widget.dart';
 import 'package:news_app/features/category_details/presentation/manager/category_cubit.dart';
 import 'package:news_app/features/category_details/presentation/widgets/ArticleItem.dart';
+import 'package:news_app/features/category_details/presentation/widgets/showNewsDetails.dart';
 
 class NewsSearch extends SearchDelegate {
+  String previousQuery = ""; 
+
   @override
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
-    scaffoldBackgroundColor: Colors.transparent,
-    appBarTheme: AppBarTheme(
-      backgroundColor:ColorManager.lightPrimaryColor,
-      elevation: 0,
-      centerTitle: true,
-      iconTheme: IconThemeData(
-        color: ColorManager.lightSecondaryColor,
-        size: 27.sp,
+      scaffoldBackgroundColor: Colors.transparent,
+      appBarTheme: AppBarTheme(
+        backgroundColor: ColorManager.lightPrimaryColor,
+        elevation: 0,
+        centerTitle: true,
+        iconTheme: IconThemeData(
+          color: ColorManager.lightSecondaryColor,
+          size: 27.sp,
+        ),
+        titleTextStyle: TextStyle(
+          color: ColorManager.lightSecondaryColor,
+          fontSize: 25.sp,
+          fontWeight: FontWeight.w600,
+          fontFamily: "Great Vibes",
+        ),
       ),
-      titleTextStyle: TextStyle(
-        color: ColorManager.lightSecondaryColor,
-        fontSize: 25.sp,
-        fontWeight: FontWeight.w600,
-        fontFamily: "Great Vibes",
-      ),
-    ),
-    colorScheme:  ColorScheme.fromSeed(
-      seedColor: const Color.fromARGB(255, 92, 7, 219),
-      primary: ColorManager.lightPrimaryColor,
-      secondary: ColorManager.lightSecondaryColor,
-      onPrimary: ColorManager.greyColor,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: const Color.fromARGB(255, 92, 7, 219),
+        primary: ColorManager.lightPrimaryColor,
+        secondary: ColorManager.lightSecondaryColor,
+        onPrimary: ColorManager.greyColor,
       ),
       textTheme: TextTheme(
         headlineMedium: TextStyle(
           fontSize: 35.sp,
           fontWeight: FontWeight.w700,
           fontFamily: "Great Vibes",
-          color:  ColorManager.lightSecondaryColor,
+          color: ColorManager.lightSecondaryColor,
         ),
         headlineSmall: TextStyle(
-          color: ColorManager.lightPrimaryColor, 
+          color: ColorManager.lightPrimaryColor,
           fontSize: 28.sp,
           fontWeight: FontWeight.bold,
         ),
@@ -49,8 +53,8 @@ class NewsSearch extends SearchDelegate {
           fontFamily: "Inter",
           color: ColorManager.lightSecondaryColor,
         ),
-      )
-  );
+      ),
+    );
   }
 
   @override
@@ -59,6 +63,7 @@ class NewsSearch extends SearchDelegate {
       IconButton(
         onPressed: () {
           query = "";
+          previousQuery = "";
         },
         icon: Icon(Icons.close, color: const Color.fromARGB(169, 162, 0, 0)),
       ),
@@ -85,7 +90,11 @@ class NewsSearch extends SearchDelegate {
     if (query.isEmpty) {
       return _buildSearchPrompt(context);
     }
-    context.read<CategoryCubit>().searchArticles(search: query);
+    if (query != previousQuery) {
+      previousQuery = query;
+      context.read<CategoryCubit>().searchArticles(search: query);
+    }
+
     return _buildSearchResults(context);
   }
 
@@ -116,20 +125,32 @@ class NewsSearch extends SearchDelegate {
         },
         builder: (context, state) {
           if (state is ArticlesLoadedSuccessState) {
+            final articles = state.articlesEntity.articles;
+            if (articles == null || articles.isEmpty) {
+              return _buildNoResultsFound();
+            }
             return ListView.separated(
-              itemBuilder: (context, index) => Material(
-                color: Theme.of(context).colorScheme.primary,
-                child: ArticleItem(
-                  articleEntity: state.articlesEntity.articles![index],
-                ),
-              ),
-              separatorBuilder: (context, index) => SizedBox(),
-              itemCount: state.articlesEntity.articles?.length ?? 0,
+              padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) {
+                        return ShowNewsDetails(article: state.articlesEntity.articles![index]);
+                      },
+                    );
+                  },
+                  child: ArticleItem(articleEntity: articles[index]),
+                );
+              },
+              separatorBuilder: (context, index) => SizedBox(height: 10.h),
+              itemCount: articles.length,
             );
           } else if (state is ArticlesErrorState) {
-            return Center(
-              child: Text(state.error, style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
-            );
+           return ErrorDisplayWidget(errorMessage: state.error);
           } else {
             return Center(
               child: CircularProgressIndicator(color: Theme.of(context).colorScheme.secondary),
@@ -140,9 +161,23 @@ class NewsSearch extends SearchDelegate {
     );
   }
 
+  Widget _buildNoResultsFound() {
+    return Center(
+      child: Text(
+        "No articles found.",
+        style: TextStyle(
+          fontSize: 18.sp,
+          fontWeight: FontWeight.w500,
+          color: Colors.redAccent,
+        ),
+      ),
+    );
+  }
+
   BoxDecoration _backgroundDecoration(BuildContext context) {
     return BoxDecoration(
       color: Theme.of(context).colorScheme.primary,
     );
   }
 }
+

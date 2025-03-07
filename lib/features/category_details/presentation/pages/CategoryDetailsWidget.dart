@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app/core/DI/di.dart';
+import 'package:news_app/core/widget/error_display_widget.dart';
 import 'package:news_app/features/category_details/presentation/manager/category_cubit.dart';
 import 'package:news_app/features/category_details/presentation/pages/newsListWidget.dart';
 
@@ -76,7 +77,9 @@ class CategoryDetailsWidget extends StatelessWidget {
             );
           }
           if (state is SourcesErrorState) {
-            return Center(child: Text(state.error));
+            return ErrorDisplayWidget(errorMessage: state.error, onRetry: () {
+              context.read<CategoryCubit>().getSources(category: categoryID, language: "en");
+            });
           }
           return Center(child: CircularProgressIndicator( color: Theme.of(context).colorScheme.secondary,));
         },

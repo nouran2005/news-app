@@ -5,12 +5,8 @@ import 'package:news_app/features/category_details/domain/entities/ArticlesEntit
 import 'package:timeago/timeago.dart' as timeago;
 
 class ArticleItem extends StatelessWidget {
-  //final ArticleModel articleModel;
   final ArticleEntity articleEntity;
-  const ArticleItem({
-    super.key,
-    required this.articleEntity,
-  });
+  const ArticleItem({super.key, required this.articleEntity});
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +16,7 @@ class ArticleItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(
-            color: Theme.of(context).colorScheme.secondary, width: 2),
+        border: Border.all(color: Theme.of(context).colorScheme.secondary, width: 2),
         boxShadow: [
           BoxShadow(
             color: Theme.of(context).colorScheme.secondary,
@@ -40,10 +35,8 @@ class ArticleItem extends StatelessWidget {
               height: 200.h,
               width: double.infinity,
               fit: BoxFit.cover,
-              placeholder: (context, url) =>
-                  Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) =>
-                  Icon(Icons.error, size: 40.sp),
+              placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) => Icon(Icons.error, size: 40.sp),
             ),
           ),
           Padding(
@@ -53,10 +46,7 @@ class ArticleItem extends StatelessWidget {
               children: [
                 Text(
                   articleEntity.title ?? "",
-                  style: TextStyle(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                 ),
@@ -65,12 +55,11 @@ class ArticleItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "By : ${articleEntity.author != null && articleEntity.author!.length > 15 ? "${articleEntity.author!.substring(0, 15)}..." : articleEntity.author ?? ""}",
+                      "By: ${articleEntity.author != null && articleEntity.author!.length > 15 ? "${articleEntity.author!.substring(0, 15)}..." : articleEntity.author ?? "Unknown Author"}",
                       style: TextStyle(fontSize: 14.sp, color: Colors.grey),
                     ),
                     Text(
-                      timeago.format(
-                          DateTime.parse(articleEntity.publishedAt ?? "")),
+                      timeago.format(DateTime.parse(articleEntity.publishedAt ?? "")),
                       style: TextStyle(fontSize: 14.sp, color: Colors.grey),
                     ),
                   ],
