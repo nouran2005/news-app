@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:news_app/core/widget/custom_image_loader.dart';
 import 'package:news_app/features/category_details/domain/entities/ArticlesEntity/ArticleEntity.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -19,7 +20,7 @@ class ArticleItem extends StatelessWidget {
         border: Border.all(color: Theme.of(context).colorScheme.secondary, width: 2),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.secondary,
+            color: Theme.of(context).colorScheme.onPrimary,
             blurRadius: 3,
             offset: Offset(0, 2),
           ),
@@ -35,8 +36,8 @@ class ArticleItem extends StatelessWidget {
               height: 200.h,
               width: double.infinity,
               fit: BoxFit.cover,
-              placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) => Icon(Icons.error, size: 40.sp),
+              placeholder: (context, url)=> CustomImageLoader(width: double.infinity, height: 200.h),
+              errorWidget: (context, url, error) => Icon(Icons.error, size: 40.sp, color: Theme.of(context).colorScheme.secondary),
             ),
           ),
           Padding(
@@ -46,7 +47,7 @@ class ArticleItem extends StatelessWidget {
               children: [
                 Text(
                   articleEntity.title ?? "",
-                  style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.secondary),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                 ),

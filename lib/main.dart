@@ -35,7 +35,8 @@ class NewsApp extends StatelessWidget {
           title: 'News App',
           debugShowCheckedModeBanner: false,
           theme: AppStyle.lightTheme,
-          //darkTheme: AppStyle.darkTheme,
+          darkTheme: AppStyle.darkTheme,
+          themeMode: ThemeMode.system,
           home: const HomeScreen(),
         );
       }

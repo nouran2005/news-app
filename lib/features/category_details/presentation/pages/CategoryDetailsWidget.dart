@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app/core/DI/di.dart';
+import 'package:news_app/core/widget/dots_loading_indicator.dart';
 import 'package:news_app/core/widget/error_display_widget.dart';
 import 'package:news_app/features/category_details/presentation/manager/category_cubit.dart';
 import 'package:news_app/features/category_details/presentation/pages/newsListWidget.dart';
@@ -46,10 +47,10 @@ class CategoryDetailsWidget extends StatelessWidget {
                     isScrollable: true,
                     dividerHeight: 0,
                     indicatorPadding: EdgeInsets.zero,
-                    labelColor: Colors.black,
+                    labelColor: Theme.of(context).colorScheme.secondary,
                     unselectedLabelStyle: TextStyle(
                         fontSize: 14,
-                        color: const Color.fromARGB(255, 0, 0, 0)),
+                        color: Theme.of(context).colorScheme.secondary),
                     labelStyle:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     indicator: UnderlineTabIndicator(
@@ -81,7 +82,7 @@ class CategoryDetailsWidget extends StatelessWidget {
               context.read<CategoryCubit>().getSources(category: categoryID, language: "en");
             });
           }
-          return Center(child: CircularProgressIndicator( color: Theme.of(context).colorScheme.secondary,));
+          return Center(child:DotsLoadingIndicator());
         },
       ),
     );

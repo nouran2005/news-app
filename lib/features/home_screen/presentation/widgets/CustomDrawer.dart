@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app/core/resources/AppColor.dart';
@@ -28,29 +27,28 @@ class _CustomDrawerState extends State<CustomDrawer> {
             width: double.infinity,
             alignment: Alignment.center,
             padding: REdgeInsets.symmetric(
-              vertical: 65
+              vertical: 100.h,
             ),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
             ),
             child: Text("Today's News", style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontFamily: "Great Vibes"),),
           ),
-          SizedBox(height: 29.h,),
           Expanded(child:
           Container(
-            color: Theme.of(context).colorScheme.secondary,
+            color: Theme.of(context).colorScheme.onPrimary,
              child: Column(
               children: [
                 Padding(
-            padding: REdgeInsets.symmetric(horizontal: 8.w),
+            padding: REdgeInsets.symmetric(horizontal: 2.w, vertical: 4.h),
             child: ListTile(
               leading: Image.asset(
                 IconsAssets.icHome, 
                 color: ColorManager.lightPrimaryColor,
-                height: 24.h,
+                height: 25.h,
               ),
-              title: const Text("Go To Home",
-                  style: TextStyle(color: ColorManager.lightPrimaryColor, fontSize: 18, fontWeight: FontWeight.bold)),
+              title: Text("Go To Home",
+                  style: Theme.of(context).textTheme.titleSmall),
               onTap: () {
                 widget.onPress();
               },
@@ -63,11 +61,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
             CustomDropdown(
             title: "Theme",
             value: selectedTheme,
-            options: ["Dark", "Light"],
+            options: ["Light", "Dark", "System"],
             onChanged: (value) {
               if (value != null) {
                 setState(() {
                   selectedTheme = value;
+                  //AppLocalizations.of(context)!.value;
                 });
               }
             },

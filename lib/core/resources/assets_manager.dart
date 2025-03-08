@@ -4,43 +4,18 @@ const String iconsPath = "assets/icons";
 
 abstract class ImageAssets {
   static const String General = "$imagePath/earth-1303628_1920.png";
-  static const String categoryCardImage = "$imagePath/category_card_image.png";
+  static const String Sports = "$imagePath/7231190-removebg-preview.png";
+  static const String Health = "$imagePath/3486168-removebg-preview.png";
+  static const String Business = "$imagePath/business.png";
+  static const String Entertainment = "$imagePath/12759-removebg-preview.png";
+  static const String Science = "$imagePath/School_Science_And_Education_concept_-10-removebg-preview.png";
+  static const String Technology = "$imagePath/01d98a63-915e-4e9e-8098-d118cef3e431-removebg-preview.png";
+  static const String Error = "$imagePath/error.png";
 
-  static const String subcategoryCardImage ="$imagePath/sub_category_card_image.png";
-  static const String carouselSlider1 = "$imagePath/CarouselSlider1.png";
-
-  static const String categoryHomeImage = "$imagePath/category_image.jpg";
-  static const String carouselSlider2 = "$imagePath/CarouselSlider2.png";
-  static const String carouselSlider3 = "$imagePath/CarouselSlider3.png";
-  static const String brandHomeImage = "$imagePath/brands_section_image.png";
-  static const String productImage = "$imagePath/product_image.png";
-
-  static const String rate = "$imagePath/rate.png";
-
-  static const String shoppingCart = "$imagePath/shopping_cart.png";
-  static const String favoriteIcon = "$imagePath/favorite.png";
-  static const String notFavoriteIcon = "$imagePath/not_favorite.png";
-  static const String searchIcon = "$imagePath/search.png";
 }
-/*
-class SvgAssets{
-  static const String routeLogo = "$svgPath/route.svg";
-  static const String eye = "$svgPath/Eye.svg";
-  static const String edit = "$svgPath/edit (1) 5.svg";
-}*/
 abstract class IconsAssets {
   static const String _icHome = "$iconsPath/home-button.png";
 
   
   static String get icHome => _icHome;
 }
-
-/*
-
-class JsonAssets {
-  static const String loading = "$jsonPath/loading.json";
-  static const String error = "$jsonPath/error.json";
-  static const String empty = "$jsonPath/empty.json";
-  static const String success = "$jsonPath/success.json";
-}
-*/

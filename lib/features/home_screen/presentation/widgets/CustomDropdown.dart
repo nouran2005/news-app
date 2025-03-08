@@ -40,7 +40,7 @@ class CustomDropdown extends StatelessWidget {
             child: DropdownButtonHideUnderline(
               child: DropdownButton<String>(
                 isExpanded: true,
-                dropdownColor: const Color.fromARGB(255, 165, 64, 64),
+                dropdownColor: ColorManager.lightGreyColor,
                 value: value,
                 items: options
                     .map((option) => DropdownMenuItem(

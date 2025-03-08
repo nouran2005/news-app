@@ -17,7 +17,7 @@ class ErrorDisplayWidget extends StatefulWidget {
 }
 
 class _ErrorDisplayWidgetState extends State<ErrorDisplayWidget> {
-  double imageSize = 50.w; 
+  double imageSize = 50.w;
 
   @override
   void initState() {
@@ -25,10 +25,24 @@ class _ErrorDisplayWidgetState extends State<ErrorDisplayWidget> {
     Future.delayed(Duration(milliseconds: 200), () {
       if (mounted) {
         setState(() {
-          imageSize = 150.w; 
+          imageSize = 150.w;
         });
       }
     });
+  }
+
+  String getFriendlyErrorMessage(String error) {
+    if (error.contains("Failed host lookup")|| error.contains("Internet")) {
+      return "No internet connection!";
+    } else if (error.contains("SocketException")) {
+      return "Network issue, please try again!";
+    } else if (error.contains("TimeoutException")) {
+      return "The server took too long to respond!";
+    } else if (error.contains("DioException")) {
+      return "An error occurred while connecting to the server. Please try again later.";
+    } else {
+      return "An unexpected error occurred: $error";
+    }
   }
 
   @override
@@ -45,18 +59,18 @@ class _ErrorDisplayWidgetState extends State<ErrorDisplayWidget> {
               width: imageSize,
               height: imageSize,
               child: Image.asset(
-                ImageAssets.General, 
+                ImageAssets.Error,
                 fit: BoxFit.contain,
               ),
             ),
             SizedBox(height: 15.h),
             Text(
-              widget.errorMessage,
+              getFriendlyErrorMessage(widget.errorMessage), 
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w500,
-                color: Colors.black87,
+                color: Theme.of(context).colorScheme.secondary,
               ),
             ),
             if (widget.onRetry != null) ...[
@@ -64,14 +78,14 @@ class _ErrorDisplayWidgetState extends State<ErrorDisplayWidget> {
               ElevatedButton(
                 onPressed: widget.onRetry,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.redAccent,
-                  foregroundColor: Colors.white,
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
+                  foregroundColor:  Colors.red,
                   padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                   elevation: 5,
-                  shadowColor: Colors.redAccent.withAlpha(100),
+                  shadowColor: Colors.black26,
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,

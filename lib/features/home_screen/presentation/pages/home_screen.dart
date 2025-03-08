@@ -19,7 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool searchIcon = false;
   @override
    initState() {
-      
       super.initState();
       selectedWidget =CategoriesTab(
         onTap: selectNewCategory,
