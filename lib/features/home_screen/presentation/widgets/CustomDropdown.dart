@@ -48,7 +48,9 @@ class CustomDropdown extends StatelessWidget {
                           child: Text(option, style: const TextStyle(color: ColorManager.lightPrimaryColor)),
                         ))
                     .toList(),
+                alignment: Alignment.bottomCenter,
                 onChanged: onChanged,
+                
               ),
             ),
           ),

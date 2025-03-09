@@ -4,6 +4,7 @@ import 'package:news_app/core/resources/AppColor.dart';
 
 
 class AppStyle {
+  
   static ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.transparent,
     appBarTheme: AppBarTheme(

@@ -10,21 +10,44 @@ class NewsSearch extends SearchDelegate {
   String previousQuery = ""; 
 
   @override
-  ThemeData appBarTheme(BuildContext context) {
-    final theme = Theme.of(context);
-    return theme.copyWith(
-      textTheme: TextTheme(
-        titleLarge: TextStyle(
-          color: theme.brightness == Brightness.dark ? Colors.black : Colors.white,
-        ),
+  @override
+ThemeData appBarTheme(BuildContext context) {
+  final theme = Theme.of(context);
+  return theme.copyWith(
+    appBarTheme: theme.appBarTheme.copyWith(
+      backgroundColor: theme.colorScheme.primary, 
+      iconTheme: IconThemeData(color: theme.colorScheme.secondary),
+      actionsIconTheme: IconThemeData(color: theme.colorScheme.secondary), 
+      titleTextStyle: theme.textTheme.titleLarge?.copyWith(
+        color: theme.colorScheme.secondary, 
+        fontSize: 20.sp,
       ),
-      inputDecorationTheme: InputDecorationTheme(
-        hintStyle: TextStyle(
-          color: theme.brightness == Brightness.dark ? Colors.black : Colors.white70,
-        ),
+      elevation: 0,
+    ),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: theme.colorScheme.secondary, 
+    ),
+    inputDecorationTheme: theme.inputDecorationTheme.copyWith(
+      filled: true,
+      fillColor: theme.colorScheme.primary, 
+      hintStyle: theme.textTheme.bodyMedium?.copyWith(
+        color: theme.colorScheme.secondary,
       ),
-    );
-  }
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(1.r),
+        borderSide: BorderSide.none, 
+      ),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h), 
+    ),
+    textTheme: theme.textTheme.copyWith(
+      titleLarge: theme.textTheme.titleLarge?.copyWith(
+        color: theme.colorScheme.secondary,
+        fontSize: 20.sp,
+      ),
+    ),
+  );
+}
+
 
   @override
   List<Widget>? buildActions(BuildContext context) {

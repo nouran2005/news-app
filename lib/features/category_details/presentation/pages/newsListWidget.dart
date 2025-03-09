@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/DI/di.dart';
+import 'package:news_app/core/resources/AppColor.dart';
 import 'package:news_app/core/widget/dots_loading_indicator.dart';
 import 'package:news_app/core/widget/error_display_widget.dart';
 import 'package:news_app/features/category_details/presentation/manager/category_cubit.dart';
@@ -43,6 +44,10 @@ class _NewsListWidgetState extends State<NewsListWidget> {
             current is ArticlesLoadingState,
         builder: (context, state) {
           if (state is ArticlesLoadedSuccessState) {
+            final articles = state.articlesEntity.articles;
+            if (articles == null || articles.isEmpty) {
+            return _buildNoArticlesMessage();
+            }
             return ListView.separated(
               controller: categoryCubit.scrollController,
               itemBuilder: (context, index) {
@@ -74,4 +79,26 @@ class _NewsListWidgetState extends State<NewsListWidget> {
       ),
     );
   }
+}
+
+
+
+Widget _buildNoArticlesMessage() {
+  return Center(
+    child: Padding(
+      padding: EdgeInsets.all(20.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.article, size: 80, color: ColorManager.lightGreyColor),
+          SizedBox(height: 10),
+          Text(
+            "No news available for this source.",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 18, color: ColorManager.lightGreyColor),
+          ),
+        ],
+      ),
+    ),
+  );
 }
