@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:news_app/core/resources/AppColor.dart';
 import 'package:news_app/core/widget/error_display_widget.dart';
 import 'package:news_app/features/category_details/presentation/manager/category_cubit.dart';
 import 'package:news_app/features/category_details/presentation/widgets/ArticleItem.dart';
@@ -11,51 +10,44 @@ class NewsSearch extends SearchDelegate {
   String previousQuery = ""; 
 
   @override
-  ThemeData appBarTheme(BuildContext context) {
-    return ThemeData(
-      scaffoldBackgroundColor: Colors.transparent,
-      appBarTheme: AppBarTheme(
-        backgroundColor: ColorManager.lightPrimaryColor,
-        elevation: 0,
-        centerTitle: true,
-        iconTheme: IconThemeData(
-          color: ColorManager.lightSecondaryColor,
-          size: 27.sp,
-        ),
-        titleTextStyle: TextStyle(
-          color: ColorManager.lightSecondaryColor,
-          fontSize: 25.sp,
-          fontWeight: FontWeight.w600,
-          fontFamily: "Great Vibes",
-        ),
+  @override
+ThemeData appBarTheme(BuildContext context) {
+  final theme = Theme.of(context);
+  return theme.copyWith(
+    appBarTheme: theme.appBarTheme.copyWith(
+      backgroundColor: theme.colorScheme.primary, 
+      iconTheme: IconThemeData(color: theme.colorScheme.secondary),
+      actionsIconTheme: IconThemeData(color: theme.colorScheme.secondary), 
+      titleTextStyle: theme.textTheme.titleLarge?.copyWith(
+        color: theme.colorScheme.secondary, 
+        fontSize: 20.sp,
       ),
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color.fromARGB(255, 92, 7, 219),
-        primary: ColorManager.lightPrimaryColor,
-        secondary: ColorManager.lightSecondaryColor,
-        onPrimary: ColorManager.greyColor,
+      elevation: 0,
+    ),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: theme.colorScheme.secondary, 
+    ),
+    inputDecorationTheme: theme.inputDecorationTheme.copyWith(
+      filled: true,
+      fillColor: theme.colorScheme.primary, 
+      hintStyle: theme.textTheme.bodyMedium?.copyWith(
+        color: theme.colorScheme.secondary,
       ),
-      textTheme: TextTheme(
-        headlineMedium: TextStyle(
-          fontSize: 35.sp,
-          fontWeight: FontWeight.w700,
-          fontFamily: "Great Vibes",
-          color: ColorManager.lightSecondaryColor,
-        ),
-        headlineSmall: TextStyle(
-          color: ColorManager.lightPrimaryColor,
-          fontSize: 28.sp,
-          fontWeight: FontWeight.bold,
-        ),
-        titleMedium: TextStyle(
-          fontSize: 24.sp,
-          fontWeight: FontWeight.w500,
-          fontFamily: "Inter",
-          color: ColorManager.lightSecondaryColor,
-        ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(1.r),
+        borderSide: BorderSide.none, 
       ),
-    );
-  }
+      contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h), 
+    ),
+    textTheme: theme.textTheme.copyWith(
+      titleLarge: theme.textTheme.titleLarge?.copyWith(
+        color: theme.colorScheme.secondary,
+        fontSize: 20.sp,
+      ),
+    ),
+  );
+}
+
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -65,7 +57,7 @@ class NewsSearch extends SearchDelegate {
           query = "";
           previousQuery = "";
         },
-        icon: Icon(Icons.close, color: const Color.fromARGB(169, 162, 0, 0)),
+        icon: Icon(Icons.close, color: Theme.of(context).colorScheme.error),
       ),
     ];
   }
@@ -94,7 +86,6 @@ class NewsSearch extends SearchDelegate {
       previousQuery = query;
       context.read<CategoryCubit>().searchArticles(search: query);
     }
-
     return _buildSearchResults(context);
   }
 
@@ -105,7 +96,7 @@ class NewsSearch extends SearchDelegate {
         child: Text(
           "Search for articles...",
           style: TextStyle(
-            color: Colors.blueGrey,
+            color: Theme.of(context).colorScheme.onPrimary,
             fontSize: 20.sp,
             fontWeight: FontWeight.w700,
           ),
@@ -116,13 +107,12 @@ class NewsSearch extends SearchDelegate {
 
   Widget _buildSearchResults(BuildContext context) {
     return Container(
-      color: Theme.of(context).colorScheme.primary,
+      decoration: _backgroundDecoration(context),
       child: BlocBuilder<CategoryCubit, CategoryState>(
-        buildWhen: (previous, current) {
-          return current is ArticlesLoadedSuccessState ||
-              current is ArticlesErrorState ||
-              current is ArticlesLoadingState;
-        },
+        buildWhen: (previous, current) =>
+            current is ArticlesLoadedSuccessState ||
+            current is ArticlesErrorState ||
+            current is ArticlesLoadingState,
         builder: (context, state) {
           if (state is ArticlesLoadedSuccessState) {
             final articles = state.articlesEntity.articles;
@@ -139,7 +129,7 @@ class NewsSearch extends SearchDelegate {
                       isScrollControlled: true,
                       backgroundColor: Colors.transparent,
                       builder: (context) {
-                        return ShowNewsDetails(article: state.articlesEntity.articles![index]);
+                        return ShowNewsDetails(article: articles[index]);
                       },
                     );
                   },
@@ -150,7 +140,7 @@ class NewsSearch extends SearchDelegate {
               itemCount: articles.length,
             );
           } else if (state is ArticlesErrorState) {
-           return ErrorDisplayWidget(errorMessage: state.error);
+            return ErrorDisplayWidget(errorMessage: state.error);
           } else {
             return Center(
               child: CircularProgressIndicator(color: Theme.of(context).colorScheme.secondary),
@@ -180,4 +170,3 @@ class NewsSearch extends SearchDelegate {
     );
   }
 }
-

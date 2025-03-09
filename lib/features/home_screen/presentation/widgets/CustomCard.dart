@@ -17,11 +17,11 @@ class NewsCategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(8.w),
       child: Container(
         padding: EdgeInsets.all(10.w),
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 0, 0, 0), 
+          color: Theme.of(context).colorScheme.secondary, 
           borderRadius: BorderRadius.circular(20.r),
         ),
         child: Row(
@@ -42,7 +42,7 @@ class NewsCategoryCard extends StatelessWidget {
 
   Widget _buildImage() {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(30.r),
+      borderRadius: BorderRadius.circular(20.r),
       child: Image.asset(
         categoryModel.imagePath,
         height: 150.h,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:news_app/core/widget/custom_image_loader.dart';
 import 'package:news_app/features/category_details/domain/entities/ArticlesEntity/ArticleEntity.dart';
 import 'package:news_app/features/category_details/presentation/widgets/url_launcher.dart';
 
@@ -28,6 +29,13 @@ class ShowNewsDetails extends StatelessWidget {
                   height: 250.h,
                   width: double.infinity,
                   fit: BoxFit.cover,
+                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    } else {
+                      return CustomImageLoader(width: double.infinity, height: 250.h);
+                    }
+                  },
                   errorBuilder: (context, error, stackTrace) => Container(
                     height: 250.h,
                     width: double.infinity,

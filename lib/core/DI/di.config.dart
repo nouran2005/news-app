@@ -48,10 +48,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i93.CategoryRepoImp(gh<_i172.CategoriesDao>()));
     gh.factory<_i814.ArticleUseCase>(
         () => _i814.ArticleUseCase(gh<_i685.CategoryRepo>()));
-    gh.factory<_i661.SourceUseCase>(
-        () => _i661.SourceUseCase(gh<_i685.CategoryRepo>()));
     gh.factory<_i743.SearchUseCase>(
         () => _i743.SearchUseCase(gh<_i685.CategoryRepo>()));
+    gh.factory<_i661.SourceUseCase>(
+        () => _i661.SourceUseCase(gh<_i685.CategoryRepo>()));
     gh.factory<_i377.CategoryCubit>(() => _i377.CategoryCubit(
           gh<_i661.SourceUseCase>(),
           gh<_i814.ArticleUseCase>(),
