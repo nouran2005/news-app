@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,54 +10,16 @@ import 'package:news_app/features/category_details/presentation/widgets/showNews
 
 class NewsSearch extends SearchDelegate {
   String previousQuery = ""; 
+  Timer? _debounce;
 
-  @override
-  @override
-ThemeData appBarTheme(BuildContext context) {
-  final theme = Theme.of(context);
-  return theme.copyWith(
-    appBarTheme: theme.appBarTheme.copyWith(
-      backgroundColor: theme.colorScheme.primary, 
-      iconTheme: IconThemeData(color: theme.colorScheme.secondary),
-      actionsIconTheme: IconThemeData(color: theme.colorScheme.secondary), 
-      titleTextStyle: theme.textTheme.titleLarge?.copyWith(
-        color: theme.colorScheme.secondary, 
-        fontSize: 20.sp,
-      ),
-      elevation: 0,
-    ),
-    textSelectionTheme: TextSelectionThemeData(
-      cursorColor: theme.colorScheme.secondary, 
-    ),
-    inputDecorationTheme: theme.inputDecorationTheme.copyWith(
-      filled: true,
-      fillColor: theme.colorScheme.primary, 
-      hintStyle: theme.textTheme.bodyMedium?.copyWith(
-        color: theme.colorScheme.secondary,
-      ),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(1.r),
-        borderSide: BorderSide.none, 
-      ),
-      contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h), 
-    ),
-    textTheme: theme.textTheme.copyWith(
-      titleLarge: theme.textTheme.titleLarge?.copyWith(
-        color: theme.colorScheme.secondary,
-        fontSize: 20.sp,
-      ),
-    ),
-  );
-}
-
-
-  @override
+ @override
   List<Widget>? buildActions(BuildContext context) {
     return [
       IconButton(
         onPressed: () {
           query = "";
           previousQuery = "";
+          _debounce?.cancel(); 
         },
         icon: Icon(Icons.close, color: Theme.of(context).colorScheme.error),
       ),
@@ -84,7 +48,10 @@ ThemeData appBarTheme(BuildContext context) {
     }
     if (query != previousQuery) {
       previousQuery = query;
-      context.read<CategoryCubit>().searchArticles(search: query);
+      _debounce?.cancel();
+      _debounce = Timer(const Duration(milliseconds: 500), () {
+        context.read<CategoryCubit>().searchArticles(search: query);
+      });
     }
     return _buildSearchResults(context);
   }
@@ -169,4 +136,50 @@ ThemeData appBarTheme(BuildContext context) {
       color: Theme.of(context).colorScheme.primary,
     );
   }
+  void dispose() {
+    _debounce?.cancel(); 
+    super.dispose();
+  }
+
+
+
+   @override
+ThemeData appBarTheme(BuildContext context) {
+  final theme = Theme.of(context);
+  return theme.copyWith(
+    appBarTheme: theme.appBarTheme.copyWith(
+      backgroundColor: theme.colorScheme.primary, 
+      iconTheme: IconThemeData(color: theme.colorScheme.secondary),
+      actionsIconTheme: IconThemeData(color: theme.colorScheme.secondary), 
+      titleTextStyle: theme.textTheme.titleLarge?.copyWith(
+        color: theme.colorScheme.secondary, 
+        fontSize: 20.sp,
+      ),
+      elevation: 0,
+    ),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: theme.colorScheme.secondary, 
+    ),
+    inputDecorationTheme: theme.inputDecorationTheme.copyWith(
+      filled: true,
+      fillColor: theme.colorScheme.primary, 
+      hintStyle: theme.textTheme.bodyMedium?.copyWith(
+        color: theme.colorScheme.secondary,
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(1.r),
+        borderSide: BorderSide.none, 
+      ),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h), 
+    ),
+    textTheme: theme.textTheme.copyWith(
+      titleLarge: theme.textTheme.titleLarge?.copyWith(
+        color: theme.colorScheme.secondary,
+        fontSize: 20.sp,
+      ),
+    ),
+  );
+}
+
+
 }
