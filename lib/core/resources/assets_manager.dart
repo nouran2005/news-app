@@ -1,7 +1,6 @@
 const String imagePath = "assets/images";
 const String iconsPath = "assets/icons";
 
-
 abstract class ImageAssets {
   static const String General = "$imagePath/earth-1303628_1920.png";
   static const String Sports = "$imagePath/sport.png";
@@ -15,7 +14,6 @@ abstract class ImageAssets {
 }
 abstract class IconsAssets {
   static const String _icHome = "$iconsPath/home-button.png";
-
-  
   static String get icHome => _icHome;
 }
+
