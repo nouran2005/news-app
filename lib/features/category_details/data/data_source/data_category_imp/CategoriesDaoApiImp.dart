@@ -14,11 +14,10 @@ class CategoriesDaoApiImp extends CategoriesDao {
   CategoriesDaoApiImp(this.apiManager);
   @override
   Future<Either<SourceResponse, String>> getSources(
-      {required String category, required String language}) async {
+      {required String category}) async {
     try {
       var response = await apiManager.get(url: Endpoints.Sources, query: {
         "category": category,
-        "language": language,
         "apiKey": AppConestants.apiKey
       });
       var sourceResponse = SourceResponse.fromJson(response.data);
@@ -35,11 +34,10 @@ class CategoriesDaoApiImp extends CategoriesDao {
 
   @override
   Future<Either<ArticlesResponse, String>> getArticles(
-      {required String sourceID, required String language, int? page}) async {
+      {required String sourceID, int? page}) async {
     try {
       var response = await apiManager.get(url: Endpoints.Articles, query: {
         "sources": sourceID,
-        "language": language,
         "apiKey": AppConestants.apiKey,
         "pageSize": "10",
         "page": "$page"

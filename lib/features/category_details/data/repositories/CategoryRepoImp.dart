@@ -11,10 +11,10 @@ class CategoryRepoImp extends CategoryRepo {
   @factoryMethod
   CategoryRepoImp(this.categoriesDao);
   @override
-  Future<Either<SourcesEntity, String>> getSources({required String category, required String language})async {
+  Future<Either<SourcesEntity, String>> getSources({required String category})async {
   bool isConnected = await InternetChecker.CheckNetwork();
    if(isConnected){
-    var result = await categoriesDao.getSources(category: category, language: language);
+    var result = await categoriesDao.getSources(category: category);
     return result.fold(
       (response){
         return Left(response.toSourcesEntity());
@@ -27,10 +27,10 @@ class CategoryRepoImp extends CategoryRepo {
   }
 
   @override
-  Future<Either<ArticlesEntity, String>> getArticles({required String sourceID, required String language, int? page})async {
+  Future<Either<ArticlesEntity, String>> getArticles({required String sourceID, int? page})async {
     bool isConnected =await InternetChecker.CheckNetwork();
     if(isConnected){
-      var result =await categoriesDao.getArticles(sourceID: sourceID, language: language, page: page);
+      var result =await categoriesDao.getArticles(sourceID: sourceID, page: page);
       return result.fold(
         (response){
           return Left(response.toArticlesEntity());

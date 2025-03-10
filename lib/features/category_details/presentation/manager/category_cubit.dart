@@ -24,10 +24,10 @@ class CategoryCubit extends Cubit<CategoryState> {
   CategoryCubit(this.sourceUseCase, this.articleUseCase, this.searchUseCase)
       : super(CategoryInitial());
 
-  void getSources({required String category, required String language}) async {
+  void getSources({required String category}) async {
     emit(SourcesLoadingState());
     var result =
-        await sourceUseCase.call(category: category, language: language);
+        await sourceUseCase.call(category: category);
     result.fold(
       (SourcesEntity sourcesEntity) {
         emit(SourcesLoadedSuccessState(sourcesEntity));
@@ -38,13 +38,13 @@ class CategoryCubit extends Cubit<CategoryState> {
     );
   }
 
-  void getArticles({required String sourceID, required String language}) async {
+  void getArticles({required String sourceID}) async {
     if (articlesEntityList.isEmpty) {
       emit(ArticlesLoadingState());
     }
 
     var result = await articleUseCase.call(
-        sourceID: sourceID, language: language, page: page);
+        sourceID: sourceID,page: page);
     result.fold(
       (ArticlesEntity articlesEntity) {
         if (articlesEntity.articles != null) {
@@ -59,13 +59,13 @@ class CategoryCubit extends Cubit<CategoryState> {
     );
   }
 
-  void onScroll({required String sourceID, required String language}) {
+  void onScroll({required String sourceID}) {
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         bool isTop = scrollController.position.pixels == 0;
         if (!isTop) {
           page++;
-          getArticles(sourceID: sourceID, language: language);
+          getArticles(sourceID: sourceID);
         }
       }
     });
