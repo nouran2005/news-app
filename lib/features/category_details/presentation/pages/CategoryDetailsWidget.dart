@@ -26,7 +26,7 @@ class CategoryDetailsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        return getIt<CategoryCubit>()..getSources(category: categoryID, language: "en");
+        return getIt<CategoryCubit>()..getSources(category: categoryID);
       },
       child: BlocBuilder<CategoryCubit, CategoryState>(
         buildWhen: (previous, current) {
@@ -79,7 +79,7 @@ class CategoryDetailsWidget extends StatelessWidget {
           }
           if (state is SourcesErrorState) {
             return ErrorDisplayWidget(errorMessage: state.error, onRetry: () {
-              context.read<CategoryCubit>().getSources(category: categoryID, language: "en");
+              context.read<CategoryCubit>().getSources(category: categoryID);
             });
           }
           return Center(child:DotsLoadingIndicator());

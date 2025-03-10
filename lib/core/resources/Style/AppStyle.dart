@@ -8,7 +8,8 @@ class AppStyle {
   static ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.transparent,
     appBarTheme: AppBarTheme(
-      backgroundColor:Colors.transparent,
+      backgroundColor:Colors.white,
+      scrolledUnderElevation: 0.0,
       elevation: 0,
       centerTitle: true,
       iconTheme: IconThemeData(
@@ -61,7 +62,8 @@ class AppStyle {
   static ThemeData darkTheme = ThemeData(
     scaffoldBackgroundColor: Colors.transparent,
     appBarTheme: AppBarTheme(
-      backgroundColor: Colors.transparent,
+      scrolledUnderElevation: 0.0,
+      backgroundColor: Colors.black,
       elevation: 0,
       centerTitle: true,
       iconTheme: IconThemeData(

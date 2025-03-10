@@ -22,8 +22,8 @@ class _NewsListWidgetState extends State<NewsListWidget> {
   @override
   void initState() {
     super.initState();
-    categoryCubit.getArticles(sourceID: widget.sourceID, language: "en");
-    categoryCubit.onScroll(sourceID: widget.sourceID, language: "en");
+    categoryCubit.getArticles(sourceID: widget.sourceID);
+    categoryCubit.onScroll(sourceID: widget.sourceID);
   }
 
   @override
@@ -70,7 +70,7 @@ class _NewsListWidgetState extends State<NewsListWidget> {
             );
           } else if (state is ArticlesErrorState) {
             return ErrorDisplayWidget(errorMessage: state.error, onRetry: () {
-              categoryCubit.getArticles(sourceID: widget.sourceID, language: "en");
+              categoryCubit.getArticles(sourceID: widget.sourceID);
             });
           } else {
             return const Center(child: DotsLoadingIndicator());

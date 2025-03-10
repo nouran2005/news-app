@@ -7,5 +7,5 @@ class SourceUseCase{
   CategoryRepo repo;
   @factoryMethod
   SourceUseCase(this.repo);
-  Future<Either<SourcesEntity, String>> call({required String category, required String language}) => repo.getSources(category: category, language: language);
+  Future<Either<SourcesEntity, String>> call({required String category}) => repo.getSources(category: category);
 } 
