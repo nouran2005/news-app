@@ -49,7 +49,7 @@ class NewsSearch extends SearchDelegate {
     if (query != previousQuery) {
       previousQuery = query;
       _debounce?.cancel();
-      _debounce = Timer(const Duration(milliseconds: 500), () {
+      _debounce = Timer(const Duration(milliseconds: 300), () {
         context.read<CategoryCubit>().searchArticles(search: query);
       });
     }
