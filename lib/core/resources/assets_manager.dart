@@ -10,6 +10,7 @@ abstract class ImageAssets {
   static const String Science = "$imagePath/School_Science_And_Education_concept_-10-removebg-preview.png";
   static const String Technology = "$imagePath/01d98a63-915e-4e9e-8098-d118cef3e431-removebg-preview.png";
   static const String Error = "$imagePath/error.png";
+  static const String Logo = "$imagePath/logo.png";
 
 }
 abstract class IconsAssets {

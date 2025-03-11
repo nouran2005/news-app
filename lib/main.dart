@@ -5,7 +5,7 @@ import 'package:news_app/core/DI/di.dart';
 import 'package:news_app/core/resources/Style/AppStyle.dart';
 import 'package:news_app/features/category_details/presentation/manager/category_cubit.dart';
 import 'package:news_app/features/home_screen/presentation/manager/theme_cubit.dart';
-import 'package:news_app/features/home_screen/presentation/pages/home_screen.dart';
+import 'package:news_app/features/splash_screen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +41,7 @@ class NewsApp extends StatelessWidget {
               theme: AppStyle.lightTheme,
               darkTheme: AppStyle.darkTheme,
               themeMode: themeMode,
-              home: const HomeScreen(),
+              home: const SplashScreen(),
             );
           },
         );
