@@ -15,6 +15,7 @@ class SplashText extends StatelessWidget {
         style: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.bold,
+          fontFamily: "Great Vibes",
           color: Theme.of(context).colorScheme.secondary,
         ),
       ),

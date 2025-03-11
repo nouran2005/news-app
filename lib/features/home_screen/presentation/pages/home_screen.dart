@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/features/category_details/presentation/pages/CategoryDetailsWidget.dart';
-import 'package:news_app/features/category_details/presentation/widgets/SearchNews.dart';
+import 'package:news_app/features/category_details/presentation/widgets/Search/SearchNews.dart';
 import 'package:news_app/features/home_screen/presentation/widgets/CatecoriesTab.dart';
 import 'package:news_app/features/home_screen/presentation/widgets/CustomDrawer.dart';
 

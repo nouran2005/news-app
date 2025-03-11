@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app/features/home_screen/data/models/Categories.dart';
 
-// ignore: must_be_immutable
 class ContentCategory extends StatelessWidget {
   ContentCategory({
     Key? key,
