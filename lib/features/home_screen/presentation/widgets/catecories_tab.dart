@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:news_app/features/home_screen/data/models/Categories.dart';
-import 'package:news_app/features/home_screen/presentation/widgets/CustomCard.dart';
+import 'package:news_app/features/home_screen/presentation/widgets/custom_card.dart';
 
 class CategoriesTab extends StatelessWidget {
   const CategoriesTab({

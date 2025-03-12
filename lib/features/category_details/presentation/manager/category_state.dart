@@ -28,3 +28,5 @@ final class ArticlesErrorState extends CategoryState {
   String error;
   ArticlesErrorState(this.error);
 }
+
+class ArticlesLoadingMoreState extends CategoryState {} 
