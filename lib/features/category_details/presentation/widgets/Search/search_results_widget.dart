@@ -8,13 +8,15 @@ import 'package:news_app/features/category_details/presentation/widgets/Search/n
 import 'package:news_app/features/category_details/presentation/widgets/show_news_details.dart';
 
 class SearchResultsWidget extends StatelessWidget {
-  const SearchResultsWidget({super.key});
+  final CategoryCubit categoryCubit;
+  const SearchResultsWidget({super.key, required this.categoryCubit});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Theme.of(context).colorScheme.primary,
       child: BlocBuilder<CategoryCubit, CategoryState>(
+        bloc: categoryCubit,
         buildWhen: (previous, current) =>
             current is ArticlesLoadedSuccessState ||
             current is ArticlesErrorState ||
@@ -49,7 +51,8 @@ class SearchResultsWidget extends StatelessWidget {
             return ErrorDisplayWidget(errorMessage: state.error);
           } else {
             return Center(
-              child: CircularProgressIndicator(color: Theme.of(context).colorScheme.secondary),
+              child: CircularProgressIndicator(
+                  color: Theme.of(context).colorScheme.secondary),
             );
           }
         },
