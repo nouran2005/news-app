@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app/core/DI/di.dart';
 import 'package:news_app/core/resources/Style/AppStyle.dart';
-import 'package:news_app/features/home_screen/presentation/pages/home_screen.dart';
+import 'package:news_app/features/home_screen/presentation/manager/theme_cubit.dart';
+import 'package:news_app/features/splash_screen/splash_screen.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ScreenUtil.ensureScreenSize();
   configureDependencies();
-  runApp(const NewsApp());
+
+  runApp(
+    BlocProvider(
+      create: (context) => ThemeCubit(),
+      child: const NewsApp(),
+    ),
+  );
 }
 
 class NewsApp extends StatelessWidget {
@@ -16,18 +24,24 @@ class NewsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(393, 852),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (_, child){
-        return MaterialApp(
-          title: 'News App',
-          theme: AppStyle.lightTheme,
-          //darkTheme: AppStyle.darkTheme,
-          home: const HomeScreen(),
+    return BlocBuilder<ThemeCubit, ThemeMode>(
+      builder: (context, themeMode) {
+        return ScreenUtilInit(
+          designSize: const Size(393, 852),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (_, child) {
+            return MaterialApp(
+              title: 'News App',
+              debugShowCheckedModeBanner: false,
+              theme: AppStyle.lightTheme,
+              darkTheme: AppStyle.darkTheme,
+              themeMode: themeMode,
+              home: const SplashScreen(),
+            );
+          },
         );
-      }
+      },
     );
   }
 }

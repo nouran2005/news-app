@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:news_app/core/resources/constants_manager.dart';
+
 @singleton
 class ApiManager{
   Dio dio = Dio(

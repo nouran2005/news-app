@@ -1,0 +1,9 @@
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/news"
+    android:insetLeft="25dp"
+    android:insetRight="25dp"
+    android:insetTop="25dp"
+    android:insetBottom="25dp"
+    android:width="25dp"
+    android:height="25dp"
+    />

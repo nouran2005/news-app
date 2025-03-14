@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app/features/home_screen/data/models/Categories.dart';
-import 'package:news_app/features/home_screen/presentation/widgets/ContentCategory.dart';
+import 'package:news_app/features/home_screen/presentation/widgets/content_category.dart';
 
 class NewsCategoryCard extends StatelessWidget {
   final CategoryModel categoryModel;
@@ -17,11 +17,11 @@ class NewsCategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(8.w),
       child: Container(
         padding: EdgeInsets.all(10.w),
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 0, 0, 0), 
+          color: Theme.of(context).colorScheme.secondary, 
           borderRadius: BorderRadius.circular(20.r),
         ),
         child: Row(
@@ -42,7 +42,7 @@ class NewsCategoryCard extends StatelessWidget {
 
   Widget _buildImage() {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(30.r),
+      borderRadius: BorderRadius.circular(20.r),
       child: Image.asset(
         categoryModel.imagePath,
         height: 150.h,

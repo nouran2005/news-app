@@ -4,10 +4,12 @@ import 'package:news_app/core/resources/AppColor.dart';
 
 
 class AppStyle {
+  
   static ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.transparent,
     appBarTheme: AppBarTheme(
-      backgroundColor:Colors.transparent,
+      backgroundColor:Colors.white,
+      scrolledUnderElevation: 0.0,
       elevation: 0,
       centerTitle: true,
       iconTheme: IconThemeData(
@@ -25,7 +27,8 @@ class AppStyle {
       seedColor: const Color.fromARGB(255, 92, 7, 219),
       primary: ColorManager.lightPrimaryColor,
       secondary: ColorManager.lightSecondaryColor,
-      onPrimary: ColorManager.greyColor,
+      onPrimary:  ColorManager.darkGreyColor,
+      onSecondary:  ColorManager.lightGreyColor
       ),
       textTheme: TextTheme(
         headlineMedium: TextStyle(
@@ -36,7 +39,7 @@ class AppStyle {
         ),
         headlineSmall: TextStyle(
           color: ColorManager.lightPrimaryColor, 
-          fontSize: 28.sp,
+          fontSize: 27.sp,
           fontWeight: FontWeight.bold,
         ),
         titleMedium: TextStyle(
@@ -44,20 +47,23 @@ class AppStyle {
           fontWeight: FontWeight.w500,
           fontFamily: "Inter",
           color: ColorManager.lightSecondaryColor,
-        ),/*
+        ),
         titleSmall: TextStyle(
-          fontSize: 18.sp,
-          fontWeight: FontWeight.w400,
-          color: AppColors.descriptionColor,
-        )*/
+          fontSize: 20.sp,
+          color: ColorManager.lightPrimaryColor,
+        )
       )
   );
+
+
+
 
 
   static ThemeData darkTheme = ThemeData(
     scaffoldBackgroundColor: Colors.transparent,
     appBarTheme: AppBarTheme(
-      backgroundColor: Colors.transparent,
+      scrolledUnderElevation: 0.0,
+      backgroundColor: Colors.black,
       elevation: 0,
       centerTitle: true,
       iconTheme: IconThemeData(
@@ -75,7 +81,8 @@ class AppStyle {
       seedColor: const Color.fromARGB(255, 92, 7, 219),
       primary: ColorManager.darkPrimaryColor,
       secondary: ColorManager.darkSecondaryColor,
-      onPrimary: ColorManager.greyColor,
+      onPrimary: ColorManager.darkGreyColor,
+      onSecondary: ColorManager.darkGreyColor
     ),
     textTheme: TextTheme(
       headlineMedium: TextStyle(
@@ -95,7 +102,10 @@ class AppStyle {
         fontFamily: "Inter",
         color: ColorManager.darkSecondaryColor,
       ),
-      // ...
+      titleSmall: TextStyle(
+        fontSize: 20.sp,
+        color: ColorManager.darkSecondaryColor,
+      )
     ),
   );
 }

@@ -9,10 +9,11 @@ class CategoryModel{
 
   static List<CategoryModel> AllCategories =[
     CategoryModel(id: "general",title: "General", imagePath: ImageAssets.General),
-    CategoryModel(id: "sports", title: "Sports", imagePath:  ImageAssets.General),
-    CategoryModel(id: "health",title: "Health", imagePath:  ImageAssets.General),
-    CategoryModel(id: "business",title: "Business", imagePath:  ImageAssets.General),
-    CategoryModel(id: "enviroment",title: "Enviroment", imagePath:  ImageAssets.General),
-    CategoryModel(id: "science",title: "Science", imagePath:  ImageAssets.General),
+    CategoryModel(id: "sports", title: "Sports", imagePath:  ImageAssets.Sports),
+    CategoryModel(id: "health",title: "Health", imagePath:  ImageAssets.Health),
+    CategoryModel(id: "business",title: "Business", imagePath:  ImageAssets.Business),
+    CategoryModel(id: "technology", title: "Technology", imagePath: ImageAssets.Technology),
+    CategoryModel(id: "science",title: "Science", imagePath:  ImageAssets.Science),
+    CategoryModel(id: "entertainment",title: "Leisure", imagePath:  ImageAssets.Entertainment),
   ];
 }

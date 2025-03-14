@@ -5,14 +5,28 @@ sealed class CategoryState {}
 
 final class CategoryInitial extends CategoryState {}
 
-final class CategoryLoadingState extends CategoryState {}
+final class SourcesLoadingState extends CategoryState {}
 
-final class CategoryLoadedSuccessState extends CategoryState {
+final class SourcesLoadedSuccessState extends CategoryState {
   SourcesEntity sourcesEntity;
-  CategoryLoadedSuccessState(this.sourcesEntity);
+  SourcesLoadedSuccessState(this.sourcesEntity);
 }
 
-final class CategoryErrorState extends CategoryState {
+final class SourcesErrorState extends CategoryState {
   String error;
-  CategoryErrorState(this.error);
+  SourcesErrorState(this.error);
 }
+
+final class ArticlesLoadingState extends CategoryState {}
+
+final class ArticlesLoadedSuccessState extends CategoryState {
+  ArticlesEntity articlesEntity;
+  ArticlesLoadedSuccessState(this.articlesEntity);
+}
+
+final class ArticlesErrorState extends CategoryState {
+  String error;
+  ArticlesErrorState(this.error);
+}
+
+class ArticlesLoadingMoreState extends CategoryState {} 
