@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app/core/DI/di.dart';
 import 'package:news_app/core/resources/Style/AppStyle.dart';
-import 'package:news_app/features/category_details/presentation/manager/category_cubit.dart';
 import 'package:news_app/features/home_screen/presentation/manager/theme_cubit.dart';
 import 'package:news_app/features/splash_screen/splash_screen.dart';
 
@@ -13,11 +12,8 @@ void main() async {
   configureDependencies();
 
   runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => getIt<CategoryCubit>()),
-        BlocProvider(create: (context) => ThemeCubit()),
-      ],
+    BlocProvider(
+      create: (context) => ThemeCubit(),
       child: const NewsApp(),
     ),
   );

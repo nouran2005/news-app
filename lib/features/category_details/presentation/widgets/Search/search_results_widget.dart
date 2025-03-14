@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:news_app/core/DI/di.dart';
 import 'package:news_app/core/widget/error_display_widget.dart';
 import 'package:news_app/features/category_details/presentation/manager/category_cubit.dart';
 import 'package:news_app/features/category_details/presentation/widgets/article_item.dart';
@@ -8,13 +9,15 @@ import 'package:news_app/features/category_details/presentation/widgets/Search/n
 import 'package:news_app/features/category_details/presentation/widgets/show_news_details.dart';
 
 class SearchResultsWidget extends StatelessWidget {
-  const SearchResultsWidget({super.key});
+  final CategoryCubit categoryCubit;
+  const SearchResultsWidget({super.key, required this.categoryCubit});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Theme.of(context).colorScheme.primary,
       child: BlocBuilder<CategoryCubit, CategoryState>(
+        bloc: categoryCubit,
         buildWhen: (previous, current) =>
             current is ArticlesLoadedSuccessState ||
             current is ArticlesErrorState ||
@@ -49,7 +52,8 @@ class SearchResultsWidget extends StatelessWidget {
             return ErrorDisplayWidget(errorMessage: state.error);
           } else {
             return Center(
-              child: CircularProgressIndicator(color: Theme.of(context).colorScheme.secondary),
+              child: CircularProgressIndicator(
+                  color: Theme.of(context).colorScheme.secondary),
             );
           }
         },
