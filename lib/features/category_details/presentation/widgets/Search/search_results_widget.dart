@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:news_app/core/DI/di.dart';
 import 'package:news_app/core/widget/error_display_widget.dart';
 import 'package:news_app/features/category_details/presentation/manager/category_cubit.dart';
 import 'package:news_app/features/category_details/presentation/widgets/article_item.dart';
