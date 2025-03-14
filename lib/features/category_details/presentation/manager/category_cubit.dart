@@ -17,6 +17,7 @@ class CategoryCubit extends Cubit<CategoryState> {
   final SearchUseCase searchUseCase;
 
   int page = 1;
+  bool isLoadingMore = false; 
   ScrollController scrollController = ScrollController();
   List<ArticleEntity> articlesEntityList = [];
 
@@ -26,8 +27,7 @@ class CategoryCubit extends Cubit<CategoryState> {
 
   void getSources({required String category}) async {
     emit(SourcesLoadingState());
-    var result =
-        await sourceUseCase.call(category: category);
+    var result = await sourceUseCase.call(category: category);
     result.fold(
       (SourcesEntity sourcesEntity) {
         emit(SourcesLoadedSuccessState(sourcesEntity));
@@ -38,32 +38,36 @@ class CategoryCubit extends Cubit<CategoryState> {
     );
   }
 
-  void getArticles({required String sourceID}) async {
-    if (articlesEntityList.isEmpty) {
-      emit(ArticlesLoadingState());
+ void getArticles({required String sourceID}) async {
+  if (articlesEntityList.isEmpty) {
+    emit(ArticlesLoadingState());
+  } else {
+    if (!isLoadingMore) {
+      isLoadingMore = true;
+      emit(ArticlesLoadingMoreState());  
     }
-
-    var result = await articleUseCase.call(
-        sourceID: sourceID,page: page);
-    result.fold(
-      (ArticlesEntity articlesEntity) {
-        if (articlesEntity.articles != null) {
-          articlesEntityList.addAll(articlesEntity.articles!);
-        }
-        emit(ArticlesLoadedSuccessState(
-            ArticlesEntity(articles: articlesEntityList)));
-      },
-      (error) {
-        emit(ArticlesErrorState(error));
-      },
-    );
   }
+
+  var result = await articleUseCase.call(sourceID: sourceID, page: page);
+  result.fold(
+    (ArticlesEntity articlesEntity) {
+      if (articlesEntity.articles != null) {
+        articlesEntityList.addAll(articlesEntity.articles!);
+      }
+      isLoadingMore = false;  
+      emit(ArticlesLoadedSuccessState(ArticlesEntity(articles: articlesEntityList)));
+    },
+    (error) {
+      isLoadingMore = false;
+      emit(ArticlesErrorState(error));
+    },
+  );
+}
 
   void onScroll({required String sourceID}) {
     scrollController.addListener(() {
-      if (scrollController.position.atEdge) {
-        bool isTop = scrollController.position.pixels == 0;
-        if (!isTop) {
+      if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 100) {
+        if (!isLoadingMore) {  
           page++;
           getArticles(sourceID: sourceID);
         }
@@ -83,6 +87,4 @@ class CategoryCubit extends Cubit<CategoryState> {
       },
     );
   }
-
-  
 }

@@ -5,12 +5,12 @@ import 'package:news_app/core/resources/AppColor.dart';
 import 'package:news_app/core/widget/dots_loading_indicator.dart';
 import 'package:news_app/core/widget/error_display_widget.dart';
 import 'package:news_app/features/category_details/presentation/manager/category_cubit.dart';
-import 'package:news_app/features/category_details/presentation/widgets/ArticleItem.dart';
-import 'package:news_app/features/category_details/presentation/widgets/showNewsDetails.dart';
+import 'package:news_app/features/category_details/presentation/widgets/article_item.dart';
+import 'package:news_app/features/category_details/presentation/widgets/show_news_details.dart';
 
 class NewsListWidget extends StatefulWidget {
   final String sourceID;
-  const NewsListWidget({Key? key, required this.sourceID}) : super(key: key);
+  const NewsListWidget({super.key, required this.sourceID});
 
   @override
   State<NewsListWidget> createState() => _NewsListWidgetState();
@@ -28,50 +28,57 @@ class _NewsListWidgetState extends State<NewsListWidget> {
 
   @override
   void dispose() {
-    categoryCubit.scrollController.removeListener(() {});
     categoryCubit.scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => categoryCubit,
+    return BlocProvider.value(
+      value: categoryCubit,
       child: BlocBuilder<CategoryCubit, CategoryState>(
         buildWhen: (previous, current) =>
             current is ArticlesLoadedSuccessState ||
+            current is ArticlesLoadingMoreState || 
             current is ArticlesErrorState ||
             current is ArticlesLoadingState,
         builder: (context, state) {
-          if (state is ArticlesLoadedSuccessState) {
-            final articles = state.articlesEntity.articles;
-            if (articles == null || articles.isEmpty) {
-            return _buildNoArticlesMessage();
+          if (state is ArticlesLoadedSuccessState || state is ArticlesLoadingMoreState) {
+            final articles = categoryCubit.articlesEntityList;
+            if (articles.isEmpty) {
+              return _buildNoArticlesMessage();
             }
             return ListView.separated(
               controller: categoryCubit.scrollController,
+              itemCount: articles.length + (categoryCubit.isLoadingMore ? 1 : 0), 
+              separatorBuilder: (context, index) => const SizedBox(height: 10),
               itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Colors.transparent,
-                      builder: (context) {
-                        return ShowNewsDetails(article: state.articlesEntity.articles![index]);
-                      },
-                    );
-                  },
-                  child: ArticleItem(articleEntity: state.articlesEntity.articles![index]),
-                );
+                if (index < articles.length) {
+                  return InkWell(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        builder: (context) {
+                          return ShowNewsDetails(article: articles[index]);
+                        },
+                      );
+                    },
+                    child: ArticleItem(articleEntity: articles[index]),
+                  );
+                } else {
+                  return _buildLoadingIndicator();
+                }
               },
-              separatorBuilder: (context, index) => SizedBox(height: 10),
-              itemCount: state.articlesEntity.articles?.length ?? 0,
             );
           } else if (state is ArticlesErrorState) {
-            return ErrorDisplayWidget(errorMessage: state.error, onRetry: () {
-              categoryCubit.getArticles(sourceID: widget.sourceID);
-            });
+            return ErrorDisplayWidget(
+              errorMessage: state.error,
+              onRetry: () {
+                categoryCubit.getArticles(sourceID: widget.sourceID);
+              },
+            );
           } else {
             return const Center(child: DotsLoadingIndicator());
           }
@@ -81,7 +88,12 @@ class _NewsListWidgetState extends State<NewsListWidget> {
   }
 }
 
-
+Widget _buildLoadingIndicator() {
+  return const Padding(
+    padding: EdgeInsets.symmetric(vertical: 10),
+    child: Center(child:  DotsLoadingIndicator()), 
+  );
+}
 
 Widget _buildNoArticlesMessage() {
   return Center(

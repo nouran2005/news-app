@@ -5,7 +5,7 @@ import 'package:news_app/core/DI/di.dart';
 import 'package:news_app/core/widget/dots_loading_indicator.dart';
 import 'package:news_app/core/widget/error_display_widget.dart';
 import 'package:news_app/features/category_details/presentation/manager/category_cubit.dart';
-import 'package:news_app/features/category_details/presentation/pages/newsListWidget.dart';
+import 'package:news_app/features/category_details/presentation/pages/news_list_widget.dart';
 
 class CategoryDetailsWidget extends StatelessWidget {
   const CategoryDetailsWidget({

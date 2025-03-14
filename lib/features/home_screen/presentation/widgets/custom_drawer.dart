@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app/core/resources/AppColor.dart';
 import 'package:news_app/core/resources/assets_manager.dart';
 import 'package:news_app/features/home_screen/presentation/manager/theme_cubit.dart';
-import 'package:news_app/features/home_screen/presentation/widgets/CustomDropdown.dart';
+import 'package:news_app/features/home_screen/presentation/widgets/custom_dropdown.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({Key? key, required this.onPress}) : super(key: key);

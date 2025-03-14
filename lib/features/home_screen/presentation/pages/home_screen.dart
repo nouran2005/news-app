@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/features/category_details/presentation/pages/CategoryDetailsWidget.dart';
-import 'package:news_app/features/category_details/presentation/widgets/Search/SearchNews.dart';
-import 'package:news_app/features/home_screen/presentation/widgets/CatecoriesTab.dart';
-import 'package:news_app/features/home_screen/presentation/widgets/CustomDrawer.dart';
+import 'package:news_app/features/category_details/presentation/pages/category_details_widget.dart';
+import 'package:news_app/features/category_details/presentation/widgets/Search/search_news.dart';
+import 'package:news_app/features/home_screen/presentation/widgets/catecories_tab.dart';
+import 'package:news_app/features/home_screen/presentation/widgets/custom_drawer.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -25,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
 
+  @override
   Widget build(BuildContext context) {
    
 
@@ -54,9 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-  void selectNewCategory(String ID, String categoryTitle) {
+  void selectNewCategory(String id, String categoryTitle) {
     selectedWidget = CategoryDetailsWidget(
-      categoryID: ID,
+      categoryID: id,
     );
     appBarTitle = categoryTitle;
     searchIcon = true;
@@ -71,5 +72,3 @@ class _HomeScreenState extends State<HomeScreen> {
     Navigator.pop(context);
   }
 }
-
-

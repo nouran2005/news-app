@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app/core/widget/error_display_widget.dart';
 import 'package:news_app/features/category_details/presentation/manager/category_cubit.dart';
-import 'package:news_app/features/category_details/presentation/widgets/ArticleItem.dart';
+import 'package:news_app/features/category_details/presentation/widgets/article_item.dart';
 import 'package:news_app/features/category_details/presentation/widgets/Search/no_results_widget.dart';
-import 'package:news_app/features/category_details/presentation/widgets/showNewsDetails.dart';
+import 'package:news_app/features/category_details/presentation/widgets/show_news_details.dart';
 
 class SearchResultsWidget extends StatelessWidget {
   const SearchResultsWidget({super.key});
