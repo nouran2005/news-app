@@ -16,7 +16,7 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => getIt<CategoryCubit>()),
-        BlocProvider(create: (context) => ThemeCubit()), 
+        BlocProvider(create: (context) => ThemeCubit()),
       ],
       child: const NewsApp(),
     ),
