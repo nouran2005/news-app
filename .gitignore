@@ -37,6 +37,7 @@ lib/core/resources/constants_manager.dart
 
 
 
+
 # Symbolication related
 app.*.symbols
 
